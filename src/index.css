@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --safe-top: max(env(safe-area-inset-top), 8px);
+  --safe-bottom: env(safe-area-inset-bottom);
+  color-scheme: light;
+}
+
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  background: #f8f7f2;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  overscroll-behavior: none;
+  color: #252e29;
+}
+button { -webkit-user-select: none; user-select: none; cursor: pointer; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+/* App shell: full-bleed on phones, iPhone 17 Pro-sized preview frame on desktop */
+.shell { position: relative; height: 100dvh; width: 100%; overflow: hidden; background: #f8f7f2; }
+.device-only { display: none; }
+@media (min-width: 640px) and (min-height: 700px) {
+  body { background: #e4e3dc; }
+  #root { display: flex; align-items: center; justify-content: center; min-height: 100dvh; padding: 24px 0; }
+  .shell {
+    --safe-top: 62px;
+    --safe-bottom: 26px;
+    width: 402px; height: 874px; max-height: calc(100dvh - 48px);
+    border-radius: 56px;
+    box-shadow: 0 0 0 11px #1d211f, 0 0 0 12px #3a3f3c, 0 30px 80px rgba(20, 30, 22, .35);
+  }
+  .device-only { display: flex; }
+}
+
+@keyframes push-in { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes pop-in { from { transform: translateX(-28%); opacity: .6; } to { transform: translateX(0); opacity: 1; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes rise { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes pop { 0% { transform: scale(.85); } 60% { transform: scale(1.06); } 100% { transform: scale(1); } }
+@keyframes ping-slow { 0% { transform: scale(.6); opacity: .8; } 100% { transform: scale(1.6); opacity: 0; } }
+.anim-push { animation: push-in .34s cubic-bezier(.2,.8,.2,1) both; box-shadow: -8px 0 24px rgba(37,62,40,.08); }
+.anim-pop { animation: pop-in .3s cubic-bezier(.2,.8,.2,1) both; }
+.anim-fade, .animate-fade-in { animation: fade-in .2s ease-out both; }
+.animate-rise { animation: rise .28s cubic-bezier(.2,.8,.2,1) both; }
+.animate-pop { animation: pop .35s ease-out both; }
+.animate-ping-slow { animation: ping-slow 2.4s ease-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .anim-push, .anim-pop, .anim-fade, .animate-rise, .animate-pop, .animate-fade-in, .animate-ping-slow { animation: none !important; }
+}
